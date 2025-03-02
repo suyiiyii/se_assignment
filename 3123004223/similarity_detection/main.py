@@ -1,5 +1,7 @@
+from data import ori, orig_08_add
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+
 
 def calculate_similarity(original_text: str, plagiarized_text: str) -> float:
     """
@@ -16,4 +18,6 @@ if __name__ == "__main__":
     plagiarized = "今天是周天，天气晴朗，我晚上要去看电影。"
     
     similarity = calculate_similarity(original, plagiarized)
+    print(f"重复率: {similarity:.2f}%")
+    similarity = calculate_similarity(ori, orig_08_add)
     print(f"重复率: {similarity:.2f}%")
