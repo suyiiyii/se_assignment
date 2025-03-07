@@ -32,8 +32,9 @@ jobs:
         run: uv run pytest --cov=. --cov-branch --cov-report=xml
         shell: bash
 
-      - name: Upload results to Codecov
+      - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          slug: suyiiyii/se_assignment
           fail_ci_if_error: true
