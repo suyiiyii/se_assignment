@@ -1,9 +1,9 @@
 import os
 import warnings
+from pathlib import Path
 
 import jieba
 import numpy as np
-from data import ori, orig_08_add
 from gensim.models import KeyedVectors
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -95,12 +95,34 @@ def calculate_similarity(original_text: str, plagiarized_text: str) -> float:
     else:
         return calculate_similarity_tfidf(original_text, plagiarized_text)
 
+
+def batch_test():
+    """
+    批量测试相似度计算函数
+    """
+    test_case_path = Path(os.path.join(os.path.dirname(os.path.abspath(__file__)), "test_case"))
+    # 读取原文和抄袭版论文的内容
+    ori = (test_case_path / "orig.txt").read_text(encoding="utf-8")
+
+    # 遍历目录，读取其他文件内容并计算相似度
+    for file in test_case_path.glob("*.txt"):
+        if file.name == "orig.txt":
+            continue
+        
+        plagiarized = file.read_text(encoding="utf-8")
+        similarity = calculate_similarity(ori, plagiarized)
+        print(f"{file.name}: {similarity:.2f}%")
+
+
 if __name__ == "__main__":
-    original = "今天是星期天，天气晴，今天晚上我要去看电影。"
-    plagiarized = "今天是周天，天气晴朗，我晚上要去看电影。"
+    # original = "今天是星期天，天气晴，今天晚上我要去看电影。"
+    # plagiarized = "今天是周天，天气晴朗，我晚上要去看电影。"
     
-    similarity = calculate_similarity(original, plagiarized)
-    print(f"重复率: {similarity:.2f}%")
+    # similarity = calculate_similarity(original, plagiarized)
+    # print(f"重复率: {similarity:.2f}%")
     
-    similarity = calculate_similarity(ori, orig_08_add)
-    print(f"重复率: {similarity:.2f}%")
+    # similarity = calculate_similarity(ori, orig_08_add)
+    # print(f"重复率: {similarity:.2f}%")
+    batch_test()
+
+
