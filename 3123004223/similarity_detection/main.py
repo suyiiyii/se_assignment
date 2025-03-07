@@ -1,4 +1,5 @@
 import os
+import sys
 import warnings
 from pathlib import Path
 
@@ -115,14 +116,34 @@ def batch_test():
 
 
 if __name__ == "__main__":
-    # original = "今天是星期天，天气晴，今天晚上我要去看电影。"
-    # plagiarized = "今天是周天，天气晴朗，我晚上要去看电影。"
-    
-    # similarity = calculate_similarity(original, plagiarized)
-    # print(f"重复率: {similarity:.2f}%")
-    
-    # similarity = calculate_similarity(ori, orig_08_add)
-    # print(f"重复率: {similarity:.2f}%")
-    batch_test()
+    # 检查是否有命令行参数
+    if len(sys.argv) == 4:  # 包含脚本名称在内共4个参数
+        original_file = sys.argv[1]
+        plagiarized_file = sys.argv[2]
+        answer_file = sys.argv[3]
+        
+        try:
+            # 读取文件内容
+            with open(original_file, 'r', encoding='utf-8') as f:
+                original_content = f.read()
+            
+            with open(plagiarized_file, 'r', encoding='utf-8') as f:
+                plagiarized_content = f.read()
+            
+            # 计算相似度
+            similarity = calculate_similarity(original_content, plagiarized_content)
+            
+            # 将结果写入答案文件
+            with open(answer_file, 'w', encoding='utf-8') as f:
+                f.write(f"{similarity:.2f}")
+            
+            print(f"重复率: {similarity:.2f}%")
+            print(f"结果已写入: {answer_file}")
+            
+        except Exception as e:
+            print(f"处理文件时出错: {e}")
+    else:
+        # 如果没有传入命令行参数，执行批量测试
+        batch_test()
 
 
