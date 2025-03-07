@@ -23,16 +23,18 @@ jobs:
           enable-cache: true
 
       - name: Install dependencies
-        run: uv sync --frozen
+        run: |
+          uv sync --frozen
+          uv pip install pytest pytest-cov
         shell: bash
 
-      - name: Install dependencies
-        run: uv pip install pytest pytest-cov
-
       - name: Run tests
-        run: uv run pytest --cov-branch --cov-report=xml
+        run: uv run pytest --cov=. --cov-branch --cov-report=xml
+        shell: bash
 
       - name: Upload results to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
+          fail_ci_if_error: true
