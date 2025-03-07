@@ -16,8 +16,18 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
 
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+          enable-cache: true
+
       - name: Install dependencies
-        run: pip install pytest pytest-cov
+        run: uv pip install pytest pytest-cov
+
+      - name: Install dependencies
+        run: uv sync --frozen
+        shell: bash
 
       - name: Run tests
         run: pytest --cov-branch --cov-report=xml
