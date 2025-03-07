@@ -23,11 +23,11 @@ jobs:
           enable-cache: true
 
       - name: Install dependencies
-        run: uv pip install pytest pytest-cov
-
-      - name: Install dependencies
         run: uv sync --frozen
         shell: bash
+
+      - name: Install dependencies
+        run: uv pip install pytest pytest-cov
 
       - name: Run tests
         run: pytest --cov-branch --cov-report=xml
