@@ -28,7 +28,7 @@ def load_word_vectors():
     if os.path.exists(model_path):
         try:
             print("正在加载中文词向量模型...")
-            word_vectors = KeyedVectors.load_word2vec_format(model_path, binary=True)
+            word_vectors = KeyedVectors.load_word2vec_format(model_path, binary=False)
             print("中文词向量模型加载完成")
             return True
         except Exception as e:
